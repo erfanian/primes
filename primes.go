@@ -96,7 +96,7 @@ func BubbleSort(primes *[]uint64) {
 	}
 }
 
-func write_primes(p chan uint64, filename *string, wg *sync.WaitGroup, sigs chan os.Signal, max_num_primes uint64,
+func writePrimes(p chan uint64, filename *string, wg *sync.WaitGroup, sigs chan os.Signal, max_num_primes uint64,
 	buffer_size uint64) {
 	defer wg.Done()
 	var m []uint64
@@ -160,7 +160,7 @@ func main() {
 	wg.Add(1)
 	write_wg.Add(1)
 	go GenerateCandidates(*start_from, candidates, &wg, sigs)
-	go write_primes(primes, filename, &write_wg, sigs, *max_num_primes, *buffer_size)
+	go writePrimes(primes, filename, &write_wg, sigs, *max_num_primes, *buffer_size)
 	for i := 0; i < *max_threads; i++ {
 		wg.Add(1)
 		go FindPrimes(candidates, primes, &wg)
